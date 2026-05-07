@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AtSign } from "lucide-react";
+import { AtSign, ExternalLink } from "lucide-react";
 import { categories } from "@/data/posts";
 
 export default function Footer() {
@@ -35,6 +35,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li><Link href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About Us</Link></li>
               <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contact</Link></li>
+              <li><Link href="/resources" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Resources</Link></li>
               <li><Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</Link></li>
               <li><Link href="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Terms & Conditions</Link></li>
               <li><Link href="/disclaimer" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Disclaimer</Link></li>
@@ -62,8 +63,18 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-border pt-6 text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} GrowWithMaya. All rights reserved.
+        <div className="mt-12 border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <span className="text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} GrowWithMaya. All rights reserved.
+          </span>
+          <a
+            href="https://www.instagram.com/maya?igsh=YXhuaTNxbmZpZTIz"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ExternalLink className="h-3.5 w-3.5" /> Follow on Instagram
+          </a>
         </div>
       </div>
     </footer>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useTheme } from "next-themes";
-import { Search, Menu, X, Sun, Moon, AtSign } from "lucide-react";
+import { Search, Menu, X, Sun, Moon, AtSign, ExternalLink } from "lucide-react";
 import { categories } from "@/data/posts";
 
 export default function Navbar() {
@@ -27,6 +27,16 @@ export default function Navbar() {
             <Link href="/category/ai-tools" className="text-sm font-medium hover:text-primary transition-colors">AI Tools</Link>
             <Link href="/category/monetization" className="text-sm font-medium hover:text-primary transition-colors">Monetize</Link>
             <Link href="/about" className="text-sm font-medium hover:text-primary transition-colors">About</Link>
+            <Link href="/resources" className="text-sm font-medium hover:text-primary transition-colors">Resources</Link>
+            <a
+              href="https://www.instagram.com/maya?igsh=YXhuaTNxbmZpZTIz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium hover:text-primary transition-colors flex items-center gap-1"
+              aria-label="Instagram"
+            >
+              <ExternalLink className="h-4 w-4" />
+            </a>
           </nav>
 
           <div className="flex items-center gap-3">
@@ -82,7 +92,16 @@ export default function Navbar() {
               </Link>
             ))}
             <Link href="/about" onClick={() => setMobileOpen(false)} className="text-sm font-medium py-2">About</Link>
+            <Link href="/resources" onClick={() => setMobileOpen(false)} className="text-sm font-medium py-2">Resources</Link>
             <Link href="/contact" onClick={() => setMobileOpen(false)} className="text-sm font-medium py-2">Contact</Link>
+            <a
+              href="https://www.instagram.com/maya?igsh=YXhuaTNxbmZpZTIz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium py-2 flex items-center gap-1"
+            >
+              <ExternalLink className="h-4 w-4" /> Instagram
+            </a>
           </nav>
         </div>
       )}

@@ -101,6 +101,10 @@ export default async function ArticlePage({ params }: Props) {
               </div>
             </header>
 
+            <div className="mb-6 rounded-lg border border-yellow-200/60 bg-yellow-50/60 dark:border-yellow-900/30 dark:bg-yellow-950/15 p-3 text-xs text-yellow-800 dark:text-yellow-400 leading-relaxed">
+              <strong>Disclosure:</strong> This post may contain affiliate links. If you purchase through my links, I earn a small commission at no extra cost to you.
+            </div>
+
             {MONETIZATION_SLUGS.has(post.slug) && (
               <div className="mb-8 rounded-xl border border-amber-200 bg-amber-50 dark:border-amber-900/40 dark:bg-amber-950/20 p-4 flex items-start gap-3">
                 <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
