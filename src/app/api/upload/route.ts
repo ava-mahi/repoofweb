@@ -37,25 +37,12 @@ export async function POST(request: Request) {
 
     const imageUrl = publicUrlData.publicUrl;
 
-    // Update existing post or insert a minimal one so cover_image is stored in DB
-    const { data: existing } = await supabase
-      .from("posts")
-      .select("id")
-      .eq("slug", slug)
-      .maybeSingle();
-
-    if (existing?.id) {
-      await supabase.from("posts").update({ cover_image: imageUrl }).eq("id", existing.id);
-    } else {
-      await supabase.from("posts").insert({
-        slug,
-        title,
-        cover_image: imageUrl,
-        status: "published",
-        content: "",
-        excerpt: "",
-      });
-    }
+    // Use RPC function to bypass RLS and update/insert cover_image
+    await supabase.rpc("update_post_cover_image", {
+      p_slug: slug,
+      p_title: title,
+      p_cover_image: imageUrl,
+    });
 
     return NextResponse.json({
       url: imageUrl,
