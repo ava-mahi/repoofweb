@@ -19,7 +19,7 @@ export default function ArticleCard({ post, featured = false, horizontal = false
           <div className="relative aspect-[16/10] overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-10" />
             <Image
-              src={getPostImageUrl(post.slug)}
+              src={post.coverImage || getPostImageUrl(post.slug)}
               alt={post.title}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -48,7 +48,7 @@ export default function ArticleCard({ post, featured = false, horizontal = false
       <article className="group flex gap-4 items-start">
         <Link href={`/${post.slug}`} className="block shrink-0 w-24 h-24 rounded-xl bg-secondary overflow-hidden relative">
           <Image
-            src={getPostImageUrl(post.slug)}
+            src={post.coverImage || getPostImageUrl(post.slug)}
             alt={post.title}
             fill
             className="object-cover"
@@ -75,7 +75,7 @@ export default function ArticleCard({ post, featured = false, horizontal = false
     <article className="group flex flex-col rounded-2xl bg-card border border-border overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
       <Link href={`/${post.slug}`} className="block relative aspect-[16/10] overflow-hidden bg-secondary">
         <Image
-          src={getPostImageUrl(post.slug)}
+          src={post.coverImage || getPostImageUrl(post.slug)}
           alt={post.title}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-500"
