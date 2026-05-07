@@ -11,7 +11,7 @@ export default function AboutPage() {
     <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
       <div className="flex flex-col items-center mb-8 animate-in fade-in duration-500">
         <img
-          src="https://kommodo.ai/i/bijChTER22vWZciHaoDR"
+          src="/images/maya-author.jpg"
           alt="Maya Chen"
           width={120}
           height={120}
