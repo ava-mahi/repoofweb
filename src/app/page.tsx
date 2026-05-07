@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, TrendingUp, Zap, BookOpen } from "lucide-react";
+import { ArrowRight, TrendingUp, Zap, BookOpen, Sparkles, Target, BarChart3 } from "lucide-react";
 import { getFeaturedPosts, getTrendingPosts, getRecentPosts, getPopularPosts, getCategories } from "@/lib/blog-service";
 import ArticleCard from "@/components/ArticleCard";
 import SectionHeader from "@/components/SectionHeader";
@@ -17,35 +17,107 @@ export default async function Home() {
 
   return (
     <div className="animate-in fade-in duration-500">
-      {/* Hero */}
+      {/* Hero Banner */}
       <section className="relative overflow-hidden border-b border-border">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-xs font-medium mb-6">
-              <Zap className="h-3.5 w-3.5" />
-              Real strategies from real experience
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-rose-100/80 via-purple-100/60 to-amber-100/80 dark:from-rose-950/30 dark:via-purple-950/20 dark:to-amber-950/30 animate-gradient-slow" />
+        
+        {/* Floating orbs */}
+        <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-pink-400/30 to-rose-300/20 blur-3xl animate-float-slow" />
+        <div className="absolute bottom-[-30%] left-[-5%] w-[400px] h-[400px] rounded-full bg-gradient-to-br from-violet-400/20 to-indigo-300/10 blur-3xl animate-float-medium" />
+        <div className="absolute top-[40%] right-[20%] w-[300px] h-[300px] rounded-full bg-gradient-to-br from-amber-400/20 to-orange-300/10 blur-3xl animate-float-fast" />
+        
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+        
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-32">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Text content */}
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/70 dark:bg-white/10 backdrop-blur-sm border border-border/50 px-4 py-1.5 text-xs font-semibold mb-8 shadow-sm">
+                <Sparkles className="h-3.5 w-3.5 text-amber-500" />
+                <span>Real strategies from real experience</span>
+              </div>
+              
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6">
+                Grow on{" "}
+                <span className="bg-gradient-to-r from-pink-500 via-rose-500 to-amber-500 bg-clip-text text-transparent">
+                  Instagram
+                </span>
+                <br />
+                <span className="text-foreground">without the fluff.</span>
+              </h1>
+              
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-10 max-w-xl">
+                Honest advice on faceless content, Reels strategy, AI tools, and creator monetization.
+                No guru BS. Just what actually worked for me.
+              </p>
+              
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/how-to-start-instagram-faceless-content"
+                  className="inline-flex items-center gap-2 rounded-xl bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
+                >
+                  Start Reading <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  href="/category/instagram-growth"
+                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-white/60 dark:bg-white/5 backdrop-blur-sm px-7 py-3.5 text-sm font-semibold hover:bg-white/80 dark:hover:bg-white/10 transition-all"
+                >
+                  Browse Topics
+                </Link>
+              </div>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6">
-              Grow on Instagram <br className="hidden md:block" />
-              <span className="text-muted-foreground">without the fluff.</span>
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8 max-w-2xl">
-              Honest advice on faceless content, Reels strategy, AI tools, and creator monetization.
-              No guru BS. Just what actually worked for me.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/how-to-start-instagram-faceless-content"
-                className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors"
-              >
-                Start Reading <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/category/instagram-growth"
-                className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-6 py-3 text-sm font-semibold hover:bg-secondary transition-colors"
-              >
-                Browse Topics
-              </Link>
+            
+            {/* Visual banner right side */}
+            <div className="hidden lg:flex relative h-[420px] items-center justify-center">
+              {/* Main floating card */}
+              <div className="relative z-10 w-80 rounded-3xl bg-white/70 dark:bg-white/5 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-2xl p-6 animate-float-card">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-white font-bold text-sm">M</div>
+                  <div>
+                    <div className="text-sm font-semibold">Maya Chen</div>
+                    <div className="text-xs text-muted-foreground">@growwithmaya</div>
+                  </div>
+                  <div className="ml-auto text-xs font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded-full">+12.4K</div>
+                </div>
+                <div className="space-y-3">
+                  <div className="h-2 bg-secondary rounded-full w-full" />
+                  <div className="h-2 bg-secondary rounded-full w-4/5" />
+                  <div className="h-2 bg-secondary rounded-full w-3/5" />
+                </div>
+                <div className="mt-5 grid grid-cols-3 gap-3">
+                  <div className="text-center">
+                    <div className="text-lg font-bold">52K</div>
+                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Followers</div>
+                  </div>
+                  <div className="text-center border-x border-border">
+                    <div className="text-lg font-bold">487</div>
+                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Posts</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-lg font-bold">8.2%</div>
+                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Engage</div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Floating stat badges */}
+              <div className="absolute top-8 left-8 z-20 rounded-2xl bg-white/80 dark:bg-white/10 backdrop-blur-md border border-border/50 shadow-lg px-4 py-3 animate-float-badge-1">
+                <div className="flex items-center gap-2">
+                  <Target className="h-4 w-4 text-rose-500" />
+                  <span className="text-sm font-semibold">3 accounts past 50K</span>
+                </div>
+              </div>
+              
+              <div className="absolute bottom-12 right-4 z-20 rounded-2xl bg-white/80 dark:bg-white/10 backdrop-blur-md border border-border/50 shadow-lg px-4 py-3 animate-float-badge-2">
+                <div className="flex items-center gap-2">
+                  <BarChart3 className="h-4 w-4 text-violet-500" />
+                  <span className="text-sm font-semibold">Data-driven tips</span>
+                </div>
+              </div>
+              
+              <div className="absolute top-1/2 right-[-10px] z-0 w-64 h-64 rounded-full bg-gradient-to-br from-pink-200/40 to-purple-200/40 dark:from-pink-900/20 dark:to-purple-900/20 blur-2xl" />
             </div>
           </div>
         </div>

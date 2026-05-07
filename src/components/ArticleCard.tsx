@@ -1,8 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Clock, Eye, ArrowUpRight } from "lucide-react";
+import { Clock, Eye } from "lucide-react";
 import { Post } from "@/types";
 import { formatDate } from "@/lib/utils";
+import { getPostImageUrl } from "@/lib/images";
 
 interface ArticleCardProps {
   post: Post;
@@ -17,9 +18,14 @@ export default function ArticleCard({ post, featured = false, horizontal = false
         <Link href={`/${post.slug}`} className="block">
           <div className="relative aspect-[16/10] overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent z-10" />
-            <div className="absolute inset-0 bg-secondary flex items-center justify-center text-muted-foreground">
-              <span className="text-xs font-medium uppercase tracking-wider">{post.category}</span>
-            </div>
+            <Image
+              src={getPostImageUrl(post.slug)}
+              alt={post.title}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              unoptimized
+            />
             <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
               <span className="inline-block rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground mb-3">
                 {post.category}
@@ -41,8 +47,15 @@ export default function ArticleCard({ post, featured = false, horizontal = false
   if (horizontal) {
     return (
       <article className="group flex gap-4 items-start">
-        <Link href={`/${post.slug}`} className="block shrink-0 w-24 h-24 rounded-xl bg-secondary overflow-hidden flex items-center justify-center text-xs text-muted-foreground">
-          <span className="text-center px-1 leading-tight">{post.category}</span>
+        <Link href={`/${post.slug}`} className="block shrink-0 w-24 h-24 rounded-xl bg-secondary overflow-hidden relative">
+          <Image
+            src={getPostImageUrl(post.slug)}
+            alt={post.title}
+            fill
+            className="object-cover"
+            sizes="96px"
+            unoptimized
+          />
         </Link>
         <div className="flex-1 min-w-0">
           <Link href={`/${post.slug}`}>
@@ -62,8 +75,15 @@ export default function ArticleCard({ post, featured = false, horizontal = false
 
   return (
     <article className="group flex flex-col rounded-2xl bg-card border border-border overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-      <Link href={`/${post.slug}`} className="block relative aspect-[16/10] overflow-hidden bg-secondary flex items-center justify-center">
-        <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{post.category}</span>
+      <Link href={`/${post.slug}`} className="block relative aspect-[16/10] overflow-hidden bg-secondary">
+        <Image
+          src={getPostImageUrl(post.slug)}
+          alt={post.title}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          unoptimized
+        />
         <div className="absolute top-3 left-3 z-10">
           <span className="inline-block rounded-full bg-background/90 backdrop-blur px-2.5 py-1 text-xs font-medium">
             {post.category}
