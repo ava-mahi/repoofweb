@@ -9,7 +9,7 @@ export async function getCategories(): Promise<Category[]> {
   if (!useSupabase) return localCategories;
   const { data, error } = await supabase.from("categories").select("*").order("name");
   if (error || !data || data.length === 0) return localCategories;
-  return data.map((c) => ({
+  return data.map((c: any) => ({
     id: c.id,
     slug: c.slug,
     name: c.name,
