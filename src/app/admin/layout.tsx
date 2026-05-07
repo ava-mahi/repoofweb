@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { FileText, LayoutDashboard, Settings } from "lucide-react";
+import { FileText, ImageIcon, LayoutDashboard, Settings } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Admin | GrowWithMaya",
@@ -21,6 +21,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </Link>
           <Link href="/admin/posts" className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium hover:bg-secondary transition-colors">
             <FileText className="h-4 w-4" /> Posts
+          </Link>
+          <Link href="/admin/images" className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium hover:bg-secondary transition-colors">
+            <ImageIcon className="h-4 w-4" /> Images
           </Link>
           <Link href="/" className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium hover:bg-secondary transition-colors">
             <Settings className="h-4 w-4" /> Back to Site
