@@ -5,137 +5,99 @@ import { posts as localPosts, categories as localCategories } from "@/data/posts
 // Try Supabase first, fall back to local data if Supabase isn't set up yet
 const useSupabase = !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
+async function getMergedPosts(): Promise<Post[]> {
+  let dbPosts: Post[] = [];
+  if (useSupabase) {
+    const { data, error } = await supabase.from("posts").select("*").eq("status", "published");
+    if (!error && data) {
+      dbPosts = data.map(mapSupabasePost);
+    }
+  }
+  const merged = new Map<string, Post>();
+  for (const p of localPosts.filter((p) => p.status === "published")) {
+    merged.set(p.slug, p);
+  }
+  for (const p of dbPosts) {
+    merged.set(p.slug, p);
+  }
+  return Array.from(merged.values());
+}
+
 export async function getCategories(): Promise<Category[]> {
   if (!useSupabase) return localCategories;
   const { data, error } = await supabase.from("categories").select("*").order("name");
   if (error || !data || data.length === 0) return localCategories;
-  return data.map((c: any) => ({
-    id: c.id,
-    slug: c.slug,
-    name: c.name,
-    description: c.description || "",
-    color: c.color || "bg-gradient-to-br from-gray-500 to-slate-500",
-    postCount: c.post_count || 0,
-  }));
+  const localMap = new Map(localCategories.map((c) => [c.slug, c]));
+  return data.map((c: any) => {
+    const local = localMap.get(c.slug);
+    return {
+      id: c.id,
+      slug: c.slug,
+      name: c.name,
+      description: c.description || "",
+      color: c.color || "bg-gradient-to-br from-gray-500 to-slate-500",
+      postCount: local?.postCount ?? (c.post_count || 0),
+    };
+  });
 }
 
 export async function getPosts(): Promise<Post[]> {
-  if (!useSupabase) return localPosts.filter((p) => p.status === "published");
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("status", "published")
-    .order("published_at", { ascending: false });
-  if (error || !data || data.length === 0) return localPosts.filter((p) => p.status === "published");
-  return data.map(mapSupabasePost);
+  const merged = await getMergedPosts();
+  return merged.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | undefined> {
-  if (!useSupabase) return localPosts.find((p) => p.slug === slug);
-  const { data, error } = await supabase.from("posts").select("*").eq("slug", slug).single();
-  if (error || !data) return localPosts.find((p) => p.slug === slug);
-  return mapSupabasePost(data);
+  const merged = await getMergedPosts();
+  return merged.find((p) => p.slug === slug);
 }
 
 export async function getPostsByCategory(categorySlug: string): Promise<Post[]> {
-  if (!useSupabase) {
-    const cat = localCategories.find((c) => c.slug === categorySlug);
-    if (!cat) return [];
-    return localPosts.filter((p) => p.category === cat.name && p.status === "published");
-  }
-  const { data: catData } = await supabase.from("categories").select("*").eq("slug", categorySlug).single();
-  if (!catData) {
-    const cat = localCategories.find((c) => c.slug === categorySlug);
-    if (!cat) return [];
-    return localPosts.filter((p) => p.category === cat.name && p.status === "published");
-  }
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("category_id", catData.id)
-    .eq("status", "published")
-    .order("published_at", { ascending: false });
-  if (error || !data || data.length === 0) return localPosts.filter((p) => p.category === catData.name && p.status === "published");
-  return data.map(mapSupabasePost);
+  const cat = localCategories.find((c) => c.slug === categorySlug);
+  if (!cat) return [];
+  const merged = await getMergedPosts();
+  return merged
+    .filter((p) => p.category === cat.name)
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 }
 
 export async function getFeaturedPosts(): Promise<Post[]> {
-  if (!useSupabase) return localPosts.filter((p) => p.featured && p.status === "published");
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("featured", true)
-    .eq("status", "published")
-    .order("published_at", { ascending: false });
-  if (error || !data || data.length === 0) return localPosts.filter((p) => p.featured && p.status === "published");
-  return data.map(mapSupabasePost);
+  const merged = await getMergedPosts();
+  return merged
+    .filter((p) => p.featured)
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 }
 
 export async function getTrendingPosts(): Promise<Post[]> {
-  if (!useSupabase) return localPosts.filter((p) => p.trending && p.status === "published").sort((a, b) => (b.views || 0) - (a.views || 0));
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("trending", true)
-    .eq("status", "published")
-    .order("views", { ascending: false });
-  if (error || !data || data.length === 0) return localPosts.filter((p) => p.trending && p.status === "published").sort((a, b) => (b.views || 0) - (a.views || 0));
-  return data.map(mapSupabasePost);
+  const merged = await getMergedPosts();
+  return merged
+    .filter((p) => p.trending)
+    .sort((a, b) => (b.views || 0) - (a.views || 0));
 }
 
 export async function getRecentPosts(limit: number = 6): Promise<Post[]> {
-  if (!useSupabase) return localPosts.filter((p) => p.status === "published").sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()).slice(0, limit);
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("status", "published")
-    .order("published_at", { ascending: false })
-    .limit(limit);
-  if (error || !data || data.length === 0) return localPosts.filter((p) => p.status === "published").sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()).slice(0, limit);
-  return data.map(mapSupabasePost);
+  const merged = await getMergedPosts();
+  return merged
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+    .slice(0, limit);
 }
 
 export async function getPopularPosts(limit: number = 6): Promise<Post[]> {
-  if (!useSupabase) return localPosts.filter((p) => p.status === "published").sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, limit);
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("status", "published")
-    .order("views", { ascending: false })
-    .limit(limit);
-  if (error || !data || data.length === 0) return localPosts.filter((p) => p.status === "published").sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, limit);
-  return data.map(mapSupabasePost);
+  const merged = await getMergedPosts();
+  return merged
+    .sort((a, b) => (b.views || 0) - (a.views || 0))
+    .slice(0, limit);
 }
 
 export async function searchPosts(query: string): Promise<Post[]> {
   const lower = query.toLowerCase();
-  if (!useSupabase) {
-    return localPosts.filter(
-      (p) =>
-        p.status === "published" &&
-        (p.title.toLowerCase().includes(lower) ||
-          p.excerpt.toLowerCase().includes(lower) ||
-          p.tags.some((t) => t.toLowerCase().includes(lower)) ||
-          p.category.toLowerCase().includes(lower))
-    );
-  }
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("status", "published")
-    .or(`title.ilike.%${lower}%,excerpt.ilike.%${lower}%`)
-    .order("published_at", { ascending: false });
-  if (error || !data || data.length === 0) {
-    return localPosts.filter(
-      (p) =>
-        p.status === "published" &&
-        (p.title.toLowerCase().includes(lower) ||
-          p.excerpt.toLowerCase().includes(lower) ||
-          p.tags.some((t) => t.toLowerCase().includes(lower)) ||
-          p.category.toLowerCase().includes(lower))
-    );
-  }
-  return data.map(mapSupabasePost);
+  const merged = await getMergedPosts();
+  return merged.filter(
+    (p) =>
+      p.title.toLowerCase().includes(lower) ||
+      p.excerpt.toLowerCase().includes(lower) ||
+      p.tags.some((t) => t.toLowerCase().includes(lower)) ||
+      p.category.toLowerCase().includes(lower)
+  );
 }
 
 export async function getRelatedPosts(currentSlug: string, limit: number = 3): Promise<Post[]> {
