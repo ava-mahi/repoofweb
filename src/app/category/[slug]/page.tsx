@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { categories, getPostsByCategory } from "@/data/posts";
+import { categories as localCategories } from "@/data/posts";
+import { getCategories, getPostsByCategory } from "@/lib/blog-service";
 import ArticleCard from "@/components/ArticleCard";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -9,13 +10,16 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
-  return categories.map((c) => ({ slug: c.slug }));
+  return localCategories.map((c) => ({ slug: c.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const category = categories.find((c) => c.slug === slug);
+  const allCategories = await getCategories();
+  const category = allCategories.find((c) => c.slug === slug) || localCategories.find((c) => c.slug === slug);
   if (!category) return {};
   return {
     title: `${category.name} | GrowWithMaya`,
@@ -25,10 +29,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CategoryPage({ params }: Props) {
   const { slug } = await params;
-  const category = categories.find((c) => c.slug === slug);
+  const allCategories = await getCategories();
+  const category = allCategories.find((c) => c.slug === slug) || localCategories.find((c) => c.slug === slug);
   if (!category) return notFound();
 
-  const posts = getPostsByCategory(slug);
+  const posts = await getPostsByCategory(slug);
 
   return (
     <div className="animate-in fade-in duration-500">

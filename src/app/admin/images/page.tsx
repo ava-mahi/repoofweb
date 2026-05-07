@@ -58,9 +58,11 @@ export default function AdminImagesPage() {
     setError(null);
     setResult(null);
 
+    const selectedTitle = posts.find((p) => p.slug === selectedPost)?.title || selectedPost;
     const formData = new FormData();
     formData.append("file", file);
     formData.append("slug", selectedPost);
+    formData.append("title", selectedTitle);
 
     try {
       const res = await fetch("/api/upload", { method: "POST", body: formData });
@@ -159,7 +161,7 @@ export default function AdminImagesPage() {
               </button>
             </div>
             <p className="text-xs text-muted-foreground">
-              Paste this URL into <code className="bg-secondary px-1 rounded">src/data/posts.ts</code> as the <code className="bg-secondary px-1 rounded">coverImage</code> value for the selected post, then rebuild and redeploy.
+              The image URL has been saved to the database. It will appear on the site automatically within 60 seconds. You can also copy the URL above if you need it elsewhere.
             </p>
           </div>
         )}

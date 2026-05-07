@@ -6,6 +6,8 @@ import SectionHeader from "@/components/SectionHeader";
 import CategoryCard from "@/components/CategoryCard";
 import Newsletter from "@/components/Newsletter";
 
+export const revalidate = 60;
+
 export default async function Home() {
   const [featured, trending, recent, popular, categories] = await Promise.all([
     getFeaturedPosts(),

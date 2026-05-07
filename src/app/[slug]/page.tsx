@@ -16,6 +16,8 @@ const MONETIZATION_SLUGS = new Set([
   "brand-deals-101-first-sponsorship",
 ]);
 
+export const revalidate = 60;
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
