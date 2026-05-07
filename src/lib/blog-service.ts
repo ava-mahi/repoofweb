@@ -24,21 +24,28 @@ async function getMergedPosts(): Promise<Post[]> {
 }
 
 export async function getCategories(): Promise<Category[]> {
-  if (!useSupabase) return localCategories;
+  const merged = await getMergedPosts();
+  const countByCategory = new Map<string, number>();
+  for (const p of merged) {
+    countByCategory.set(p.category, (countByCategory.get(p.category) || 0) + 1);
+  }
+
+  const mergeCounts = (cats: Category[]): Category[] =>
+    cats.map((c) => ({ ...c, postCount: countByCategory.get(c.name) || 0 }));
+
+  if (!useSupabase) return mergeCounts(localCategories);
+
   const { data, error } = await supabase.from("categories").select("*").order("name");
-  if (error || !data || data.length === 0) return localCategories;
-  const localMap = new Map(localCategories.map((c) => [c.slug, c]));
-  return data.map((c: any) => {
-    const local = localMap.get(c.slug);
-    return {
-      id: c.id,
-      slug: c.slug,
-      name: c.name,
-      description: c.description || "",
-      color: c.color || "bg-gradient-to-br from-gray-500 to-slate-500",
-      postCount: local?.postCount ?? (c.post_count || 0),
-    };
-  });
+  if (error || !data || data.length === 0) return mergeCounts(localCategories);
+
+  return data.map((c: any) => ({
+    id: c.id,
+    slug: c.slug,
+    name: c.name,
+    description: c.description || "",
+    color: c.color || "bg-gradient-to-br from-gray-500 to-slate-500",
+    postCount: countByCategory.get(c.name) || 0,
+  }));
 }
 
 export async function getPosts(): Promise<Post[]> {

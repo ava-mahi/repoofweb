@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Clock, Eye } from "lucide-react";
+import { Eye } from "lucide-react";
 import { Post } from "@/types";
 import { formatDate } from "@/lib/utils";
 import { getPostImageUrl } from "@/lib/images";
@@ -35,7 +35,6 @@ export default function ArticleCard({ post, featured = false, horizontal = false
               <div className="flex items-center gap-4 text-xs text-white/70">
                 <span>{post.author}</span>
                 <span>{formatDate(post.publishedAt)}</span>
-                <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {post.readingTime} min</span>
               </div>
             </div>
           </div>
@@ -66,7 +65,6 @@ export default function ArticleCard({ post, featured = false, horizontal = false
           <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{post.excerpt}</p>
           <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
             <span>{formatDate(post.publishedAt)}</span>
-            <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {post.readingTime}m</span>
           </div>
         </div>
       </article>
@@ -101,7 +99,6 @@ export default function ArticleCard({ post, featured = false, horizontal = false
         <div className="flex items-center justify-between text-xs text-muted-foreground pt-4 border-t border-border">
           <div className="flex items-center gap-3">
             <span>{formatDate(post.publishedAt)}</span>
-            <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {post.readingTime}m</span>
           </div>
           {post.views && (
             <span className="flex items-center gap-1"><Eye className="h-3 w-3" /> {(post.views / 1000).toFixed(1)}k</span>
