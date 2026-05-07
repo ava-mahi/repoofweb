@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Eye } from "lucide-react";
 import { Post } from "@/types";
 import { formatDate } from "@/lib/utils";
 import { getPostImageUrl } from "@/lib/images";
@@ -96,13 +95,8 @@ export default function ArticleCard({ post, featured = false, horizontal = false
           </h3>
         </Link>
         <p className="text-sm text-muted-foreground line-clamp-3 mb-4 flex-1">{post.excerpt}</p>
-        <div className="flex items-center justify-between text-xs text-muted-foreground pt-4 border-t border-border">
-          <div className="flex items-center gap-3">
-            <span>{formatDate(post.publishedAt)}</span>
-          </div>
-          {post.views && (
-            <span className="flex items-center gap-1"><Eye className="h-3 w-3" /> {(post.views / 1000).toFixed(1)}k</span>
-          )}
+        <div className="flex items-center text-xs text-muted-foreground pt-4 border-t border-border">
+          <span>{formatDate(post.publishedAt)}</span>
         </div>
       </div>
     </article>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AtSign, MessageCircle, Play, Mail } from "lucide-react";
+import { AtSign } from "lucide-react";
 import { categories } from "@/data/posts";
 
 export default function Footer() {
@@ -15,17 +15,6 @@ export default function Footer() {
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
               Real creator strategies, honest advice, and no fluff. Helping you grow on Instagram and beyond.
             </p>
-            <div className="mt-4 flex gap-3">
-              <a href="#" className="rounded-full bg-secondary p-2 hover:bg-primary hover:text-primary-foreground transition-colors">
-                <MessageCircle className="h-4 w-4" />
-              </a>
-              <a href="#" className="rounded-full bg-secondary p-2 hover:bg-primary hover:text-primary-foreground transition-colors">
-                <Play className="h-4 w-4" />
-              </a>
-              <a href="#" className="rounded-full bg-secondary p-2 hover:bg-primary hover:text-primary-foreground transition-colors">
-                <Mail className="h-4 w-4" />
-              </a>
-            </div>
           </div>
 
           <div>

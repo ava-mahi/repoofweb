@@ -41,7 +41,10 @@ export default function PrivacyPage() {
           <li>Legal authorities if required by law</li>
         </ul>
 
-        <h2>5. Your Rights</h2>
+        <h2>5. Advertising & Cookies (Google AdSense)</h2>
+        <p>This website uses Google AdSense, a web advertising service provided by Google LLC. Google AdSense uses cookies, including the DoubleClick cookie, to serve ads based on your prior visits to this website and other websites on the internet. You may opt out of personalized advertising by visiting Google's Ads Settings at <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="underline">https://www.google.com/settings/ads</a>. For more information about how Google uses data from sites that use their services, visit <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer" className="underline">https://policies.google.com/technologies/partner-sites</a>. This website also uses Google Analytics to analyze website traffic. Google Analytics uses cookies to collect information about how visitors use this site.</p>
+
+        <h2>6. Your Rights</h2>
         <p>Depending on your location, you may have the right to:</p>
         <ul>
           <li>Access the personal data we hold about you</li>
@@ -50,13 +53,13 @@ export default function PrivacyPage() {
           <li>Request a copy of your data</li>
         </ul>
 
-        <h2>6. Data Security</h2>
+        <h2>7. Data Security</h2>
         <p>We implement reasonable security measures to protect your personal information. However, no method of transmission over the internet is 100% secure.</p>
 
-        <h2>7. Changes to This Policy</h2>
+        <h2>8. Changes to This Policy</h2>
         <p>We may update this privacy policy from time to time. We will notify you of any changes by posting the new policy on this page.</p>
 
-        <h2>8. Contact Us</h2>
+        <h2>9. Contact Us</h2>
         <p>If you have any questions about this privacy policy, please contact us through our contact page.</p>
       </div>
     </div>

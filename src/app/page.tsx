@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, TrendingUp, Zap, BookOpen, Sparkles, Target, BarChart3 } from "lucide-react";
+import { ArrowRight, TrendingUp, Zap, BookOpen, Sparkles } from "lucide-react";
 import { getFeaturedPosts, getTrendingPosts, getRecentPosts, getPopularPosts, getCategories } from "@/lib/blog-service";
 import ArticleCard from "@/components/ArticleCard";
 import SectionHeader from "@/components/SectionHeader";
@@ -31,9 +31,7 @@ export default async function Home() {
         <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
         
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-32">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Text content */}
-            <div className="max-w-2xl">
+          <div className="max-w-2xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 rounded-full bg-white/70 dark:bg-white/10 backdrop-blur-sm border border-border/50 px-4 py-1.5 text-xs font-semibold mb-8 shadow-sm">
                 <Sparkles className="h-3.5 w-3.5 text-amber-500" />
                 <span>Real strategies from real experience</span>
@@ -68,59 +66,7 @@ export default async function Home() {
                 </Link>
               </div>
             </div>
-            
-            {/* Visual banner right side */}
-            <div className="hidden lg:flex relative h-[420px] items-center justify-center">
-              {/* Main floating card */}
-              <div className="relative z-10 w-80 rounded-3xl bg-white/70 dark:bg-white/5 backdrop-blur-xl border border-white/40 dark:border-white/10 shadow-2xl p-6 animate-float-card">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-white font-bold text-sm">M</div>
-                  <div>
-                    <div className="text-sm font-semibold">Maya Chen</div>
-                    <div className="text-xs text-muted-foreground">@growwithmaya</div>
-                  </div>
-                  <div className="ml-auto text-xs font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded-full">+12.4K</div>
-                </div>
-                <div className="space-y-3">
-                  <div className="h-2 bg-secondary rounded-full w-full" />
-                  <div className="h-2 bg-secondary rounded-full w-4/5" />
-                  <div className="h-2 bg-secondary rounded-full w-3/5" />
-                </div>
-                <div className="mt-5 grid grid-cols-3 gap-3">
-                  <div className="text-center">
-                    <div className="text-lg font-bold">52K</div>
-                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Followers</div>
-                  </div>
-                  <div className="text-center border-x border-border">
-                    <div className="text-lg font-bold">487</div>
-                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Posts</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-lg font-bold">8.2%</div>
-                    <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Engage</div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Floating stat badges */}
-              <div className="absolute top-8 left-8 z-20 rounded-2xl bg-white/80 dark:bg-white/10 backdrop-blur-md border border-border/50 shadow-lg px-4 py-3 animate-float-badge-1">
-                <div className="flex items-center gap-2">
-                  <Target className="h-4 w-4 text-rose-500" />
-                  <span className="text-sm font-semibold">3 accounts past 50K</span>
-                </div>
-              </div>
-              
-              <div className="absolute bottom-12 right-4 z-20 rounded-2xl bg-white/80 dark:bg-white/10 backdrop-blur-md border border-border/50 shadow-lg px-4 py-3 animate-float-badge-2">
-                <div className="flex items-center gap-2">
-                  <BarChart3 className="h-4 w-4 text-violet-500" />
-                  <span className="text-sm font-semibold">Data-driven tips</span>
-                </div>
-              </div>
-              
-              <div className="absolute top-1/2 right-[-10px] z-0 w-64 h-64 rounded-full bg-gradient-to-br from-pink-200/40 to-purple-200/40 dark:from-pink-900/20 dark:to-purple-900/20 blur-2xl" />
-            </div>
           </div>
-        </div>
       </section>
 
       {/* Featured Articles */}

@@ -3,9 +3,18 @@ import { Metadata } from "next";
 import { getPostBySlug, getRelatedPosts } from "@/lib/blog-service";
 import { getAllSlugs, categories as localCategories } from "@/data/posts";
 import { formatDate, calculateReadingTime } from "@/lib/utils";
-import { Clock, Share2, Link2, Bookmark, MessageSquare } from "lucide-react";
+import { Clock, Share2, Link2, Bookmark, MessageSquare, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 import ArticleCard from "@/components/ArticleCard";
+
+const MONETIZATION_SLUGS = new Set([
+  "how-i-made-first-1000-creator-economy",
+  "how-i-built-100k-faceless-account",
+  "passive-income-creators-what-works",
+  "why-small-creators-make-more",
+  "affiliate-links-2000-month",
+  "brand-deals-101-first-sponsorship",
+]);
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -85,10 +94,19 @@ export default async function ArticlePage({ params }: Props) {
               <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                 <span className="font-medium text-foreground">{post.author}</span>
                 <span>{formatDate(post.publishedAt)}</span>
+                <span className="text-xs">Last updated: May 2026</span>
                 <span className="flex items-center gap-1"><Clock className="h-4 w-4" /> {post.readingTime} min read</span>
-                {post.views && <span>{(post.views / 1000).toFixed(1)}k views</span>}
               </div>
             </header>
+
+            {MONETIZATION_SLUGS.has(post.slug) && (
+              <div className="mb-8 rounded-xl border border-amber-200 bg-amber-50 dark:border-amber-900/40 dark:bg-amber-950/20 p-4 flex items-start gap-3">
+                <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                <p className="text-sm text-amber-800 dark:text-amber-300 leading-relaxed">
+                  <strong>Results Disclaimer:</strong> The income figures and growth results mentioned in this article reflect personal experience and are not typical. Individual results will vary based on effort, niche, timing, and many other factors. This is not a guarantee of income.
+                </p>
+              </div>
+            )}
 
             {/* Share Bar */}
             <div className="flex items-center gap-2 mb-8 pb-8 border-b border-border">

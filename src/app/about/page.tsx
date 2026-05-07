@@ -9,6 +9,17 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
+      <div className="flex flex-col items-center mb-8 animate-in fade-in duration-500">
+        <img
+          src="https://kommodo.ai/i/bijChTER22vWZciHaoDR"
+          alt="Maya Chen"
+          width={120}
+          height={120}
+          className="rounded-full object-cover border-2 border-border shadow-md"
+          style={{ width: 120, height: 120 }}
+        />
+        <p className="mt-3 text-sm text-muted-foreground text-center">Maya Chen — Creator & Strategist</p>
+      </div>
       <h1 className="text-4xl font-extrabold tracking-tight mb-8">About Me</h1>
 
       <div className="prose-custom">

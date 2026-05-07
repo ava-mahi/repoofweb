@@ -19,6 +19,10 @@ export default function ContactPage() {
           Have a question, collaboration idea, or just want to say hi? I&apos;d love to hear from you.
         </p>
       </div>
+      <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-6">
+        <Mail className="h-4 w-4" />
+        <span>You can also reach us directly at: <a href="mailto:hello@growwithmaya.info" className="font-medium text-foreground hover:underline">hello@growwithmaya.info</a></span>
+      </div>
       <ContactForm />
     </div>
   );
