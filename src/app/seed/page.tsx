@@ -2,6 +2,15 @@ import { supabase } from "@/lib/supabase";
 import { categories as localCategories, posts as localPosts } from "@/data/posts";
 
 export default async function SeedPage() {
+  if (!supabase) {
+    return (
+      <div className="mx-auto max-w-2xl px-4 py-16 text-center">
+        <h1 className="text-2xl font-bold mb-4">Database Seed</h1>
+        <p className="text-amber-600 dark:text-amber-400 font-medium">Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.</p>
+      </div>
+    );
+  }
+
   let message = "";
   let error = "";
 
