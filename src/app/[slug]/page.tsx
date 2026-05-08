@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import Image from "next/image";
 import { getPostBySlug, getRelatedPosts } from "@/lib/blog-service";
 import { getAllSlugs, categories as localCategories } from "@/data/posts";
 import { formatDate, calculateReadingTime } from "@/lib/utils";
@@ -100,6 +101,20 @@ export default async function ArticlePage({ params }: Props) {
                 <span className="flex items-center gap-1"><Clock className="h-4 w-4" /> {post.readingTime} min read</span>
               </div>
             </header>
+
+            {post.coverImage && (
+              <div className="relative mb-8 aspect-[16/9] w-full overflow-hidden rounded-2xl border border-border">
+                <Image
+                  src={post.coverImage}
+                  alt={post.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 66vw"
+                  unoptimized
+                  priority
+                />
+              </div>
+            )}
 
             <div className="mb-6 rounded-lg border border-yellow-200/60 bg-yellow-50/60 dark:border-yellow-900/30 dark:bg-yellow-950/15 p-3 text-xs text-yellow-800 dark:text-yellow-400 leading-relaxed">
               <strong>Disclosure:</strong> This post may contain affiliate links. If you purchase through my links, I earn a small commission at no extra cost to you.
