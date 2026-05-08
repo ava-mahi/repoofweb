@@ -53,7 +53,7 @@ export default function Newsletter() {
               </button>
             </form>
           )}
-          <p className="mt-4 text-xs text-primary-foreground/50">Join 12,000+ creators. Unsubscribe anytime.</p>
+          <p className="mt-4 text-xs text-primary-foreground/50">Join 500+ creators. Unsubscribe anytime.</p>
         </div>
       </div>
     </section>
