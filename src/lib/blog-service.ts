@@ -8,9 +8,11 @@ const useSupabase = !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.NEXT
 async function getMergedPosts(): Promise<Post[]> {
   let dbPosts: Post[] = [];
   if (useSupabase) {
-    const { data, error } = await supabase.from("posts").select("*").eq("status", "published");
+    const { data, error } = await supabase.from("posts").select("*");
     if (!error && data) {
       dbPosts = data.map(mapSupabasePost);
+    } else if (error) {
+      console.error("Supabase posts fetch error:", error.message);
     }
   }
   const merged = new Map<string, Post>();
@@ -20,6 +22,7 @@ async function getMergedPosts(): Promise<Post[]> {
   for (const p of dbPosts) {
     merged.set(p.slug, p);
   }
+  console.log(`Merged posts: ${merged.size} (DB: ${dbPosts.length}, Local: ${localPosts.filter(p => p.status === "published").length})`);
   return Array.from(merged.values());
 }
 
