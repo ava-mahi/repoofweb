@@ -7,22 +7,46 @@ const useSupabase = !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.NEXT
 
 async function getMergedPosts(): Promise<Post[]> {
   let dbPosts: Post[] = [];
+  let imageOverrides = new Map<string, string>();
+
   if (useSupabase) {
-    const { data, error } = await supabase.from("posts").select("*");
-    if (!error && data) {
-      dbPosts = data.map(mapSupabasePost);
-    } else if (error) {
-      console.error("Supabase posts fetch error:", error.message);
+    const [{ data: postsData, error: postsError }, { data: imagesData, error: imagesError }] = await Promise.all([
+      supabase.from("posts").select("*"),
+      supabase.from("post_images").select("slug, image_url"),
+    ]);
+
+    if (!postsError && postsData) {
+      dbPosts = postsData.map(mapSupabasePost);
+    } else if (postsError) {
+      console.error("Supabase posts fetch error:", postsError.message);
+    }
+
+    if (!imagesError && imagesData) {
+      for (const row of imagesData) {
+        imageOverrides.set(row.slug, row.image_url);
+      }
+    } else if (imagesError) {
+      console.error("post_images fetch error:", imagesError.message);
     }
   }
+
   const merged = new Map<string, Post>();
   for (const p of localPosts.filter((p) => p.status === "published")) {
-    merged.set(p.slug, p);
+    merged.set(p.slug, { ...p });
   }
   for (const p of dbPosts) {
     merged.set(p.slug, p);
   }
-  console.log(`Merged posts: ${merged.size} (DB: ${dbPosts.length}, Local: ${localPosts.filter(p => p.status === "published").length})`);
+
+  // Apply image overrides from post_images table
+  for (const [slug, imageUrl] of imageOverrides) {
+    const post = merged.get(slug);
+    if (post) {
+      post.coverImage = imageUrl;
+    }
+  }
+
+  console.log(`Merged posts: ${merged.size} (DB posts: ${dbPosts.length}, Image overrides: ${imageOverrides.size})`);
   return Array.from(merged.values());
 }
 

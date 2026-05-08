@@ -47,7 +47,7 @@ export default function AdminImagesPage() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [result, setResult] = useState<{ url: string; path: string } | null>(null);
+  const [result, setResult] = useState<{ url: string; path: string; dbUpdated: boolean; dbError: string | null } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
@@ -152,9 +152,10 @@ export default function AdminImagesPage() {
         )}
 
         {result && (
-          <div className="bg-green-50 dark:bg-green-950/30 p-4 rounded-lg space-y-3">
-            <div className="flex items-center gap-2 text-sm text-green-700 dark:text-green-400">
-              <Check className="h-4 w-4" /> Uploaded successfully
+          <div className={`p-4 rounded-lg space-y-3 ${result.dbUpdated ? "bg-green-50 dark:bg-green-950/30" : "bg-amber-50 dark:bg-amber-950/30"}`}>
+            <div className={`flex items-center gap-2 text-sm ${result.dbUpdated ? "text-green-700 dark:text-green-400" : "text-amber-700 dark:text-amber-400"}`}>
+              <Check className="h-4 w-4" />
+              {result.dbUpdated ? "Image uploaded & saved to database" : "Image uploaded but NOT saved to database"}
             </div>
             <div className="flex items-center gap-2">
               <input
@@ -170,9 +171,15 @@ export default function AdminImagesPage() {
                 {copied ? "Copied" : "Copy"}
               </button>
             </div>
-            <p className="text-xs text-muted-foreground">
-              The image URL has been saved to the database. It will appear on the site automatically within 60 seconds. You can also copy the URL above if you need it elsewhere.
-            </p>
+            {result.dbUpdated ? (
+              <p className="text-xs text-muted-foreground">
+                Image saved. It will appear on the site automatically within 60 seconds.
+              </p>
+            ) : (
+              <p className="text-xs text-amber-700 dark:text-amber-400">
+                <strong>Warning:</strong> The image file was uploaded but the database link failed. You need to create a <code>post_images</code> table in Supabase, or the image won&apos;t show on the site. Error: {result.dbError}
+              </p>
+            )}
           </div>
         )}
       </div>

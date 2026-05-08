@@ -37,16 +37,51 @@ export async function POST(request: Request) {
 
     const imageUrl = publicUrlData.publicUrl;
 
-    // Use RPC function to bypass RLS and update/insert cover_image
-    await supabase.rpc("update_post_cover_image", {
-      p_slug: slug,
-      p_title: title,
-      p_cover_image: imageUrl,
-    });
+    // Try RPC function first (bypasses RLS)
+    let dbUpdated = false;
+    let dbError = null;
+
+    try {
+      const { error: rpcError } = await supabase.rpc("update_post_cover_image", {
+        p_slug: slug,
+        p_title: title,
+        p_cover_image: imageUrl,
+      });
+      if (rpcError) {
+        dbError = rpcError.message;
+        console.log("RPC failed:", rpcError.message);
+      } else {
+        dbUpdated = true;
+      }
+    } catch (e: any) {
+      dbError = e.message;
+      console.log("RPC exception:", e.message);
+    }
+
+    // Fallback: try direct upsert to post_images table
+    if (!dbUpdated) {
+      try {
+        const { error: upsertError } = await supabase
+          .from("post_images")
+          .upsert({ slug, image_url: imageUrl, updated_at: new Date().toISOString() });
+        if (upsertError) {
+          console.log("post_images upsert failed:", upsertError.message);
+          dbError = upsertError.message;
+        } else {
+          dbUpdated = true;
+          dbError = null;
+        }
+      } catch (e: any) {
+        console.log("post_images exception:", e.message);
+        dbError = e.message;
+      }
+    }
 
     return NextResponse.json({
       url: imageUrl,
       path,
+      dbUpdated,
+      dbError,
     });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || "Upload failed" }, { status: 500 });
