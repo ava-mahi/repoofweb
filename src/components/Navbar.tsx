@@ -16,7 +16,7 @@ export default function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center gap-2 text-xl font-bold tracking-tight">
-            <img src="/logo.png" alt="GrowWithMaya" className="h-8 w-8 rounded-full object-cover" />
+            <img src="/logo-small.png" alt="GrowWithMaya" className="h-8 w-8 rounded-full object-cover" />
             <span>GrowWithMaya</span>
           </Link>
 
