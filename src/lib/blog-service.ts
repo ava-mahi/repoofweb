@@ -109,7 +109,9 @@ export async function searchPosts(query: string): Promise<Post[]> {
 
 export async function getRelatedPosts(currentSlug: string, limit: number = 3): Promise<Post[]> {
   const current = await getPostBySlug(currentSlug);
-  if (!current) return [];
+  if (!current) {
+    return [];
+  }
   const allPosts = await getPosts();
   return allPosts
     .filter((p) => p.slug !== currentSlug)

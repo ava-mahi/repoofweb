@@ -30,6 +30,16 @@ const posts = [
   { slug: "analytics-dashboard-every-monday", title: "Analytics Dashboard" },
   { slug: "affiliate-links-2000-month", title: "Affiliate Links $2,000/Month" },
   { slug: "how-i-film-20-reels-2-hours", title: "How I Film 20 Reels in 2 Hours" },
+  { slug: "best-ai-caption-writers-instagram", title: "I Tested 7 AI Caption Writers for Instagram" },
+  { slug: "canva-ai-content-creation-workflow", title: "How I Use Canva AI to Create a Week of Content in 90 Minutes" },
+  { slug: "ai-tools-content-strategy-honest-review", title: "The AI Tool That Saved My Content Strategy" },
+  { slug: "how-i-made-500-from-instagram-story", title: "How I Made $500 from a Single Instagram Story" },
+  { slug: "digital-products-creators-what-sells", title: "Digital Products for Creators: What Sells" },
+  { slug: "brand-deals-small-creators-5000-followers", title: "Brand Deals for Small Creators" },
+  { slug: "why-instagram-growth-stalled-fixes", title: "Why Your Instagram Growth Stalled" },
+  { slug: "monthly-instagram-audit-template", title: "The Instagram Audit I Do Every Month" },
+  { slug: "best-faceless-niche-instagram", title: "The Faceless Niche I Wish I Had Started With" },
+  { slug: "creator-burnout-recovery", title: "The Creator Burnout Nobody Talks About" },
 ];
 
 export default function AdminImagesPage() {

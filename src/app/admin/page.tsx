@@ -1,5 +1,3 @@
-"use client";
-
 import { posts } from "@/data/posts";
 import { categories } from "@/data/posts";
 import Link from "next/link";
