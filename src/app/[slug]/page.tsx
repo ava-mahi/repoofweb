@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { getPostBySlug, getRelatedPosts } from "@/lib/blog-service";
+import { getArticleImages, injectInlineImages } from "@/lib/article-images";
 import { getAllSlugs, categories as localCategories } from "@/data/posts";
 import { formatDate, calculateReadingTime } from "@/lib/utils";
 import { Clock, Share2, Link2, Bookmark, MessageSquare, AlertTriangle } from "lucide-react";
@@ -68,8 +69,13 @@ export default async function ArticlePage({ params }: Props) {
   const post = await getPostBySlug(slug);
   if (!post) return notFound();
 
-  const related = await getRelatedPosts(slug, 3);
-  const { html: contentWithIds, headings: toc } = injectHeadingIds(post.content);
+  const [related, articleImages] = await Promise.all([
+    getRelatedPosts(slug, 3),
+    getArticleImages(slug),
+  ]);
+
+  const contentWithImages = injectInlineImages(post.content, articleImages);
+  const { html: contentWithIds, headings: toc } = injectHeadingIds(contentWithImages);
 
   const jsonLd = {
     "@context": "https://schema.org",
