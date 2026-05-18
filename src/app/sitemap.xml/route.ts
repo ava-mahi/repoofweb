@@ -1,9 +1,9 @@
 import { getAllSlugs, posts, categories } from "@/data/posts";
 
 export async function GET() {
-  const baseUrl = "https://growwithmaya.com";
+  const baseUrl = "https://www.growwithmaya.info";
 
-  const staticPages = ["", "about/", "contact/", "privacy/", "terms/", "disclaimer/"];
+  const staticPages = ["", "about/", "contact/", "privacy/", "terms/", "disclaimer/", "resources/"];
 
   const urls = [
     ...staticPages.map((page) => `<url><loc>${baseUrl}/${page}</loc><priority>${page === "" ? "1.0" : "0.5"}</priority></url>`),

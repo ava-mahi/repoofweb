@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center gap-2 text-lg font-bold">
-              <AtSign className="h-5 w-5" />
+              <img src="/logo-small.png" alt="GrowWithMaya" className="h-7 w-7 rounded-full object-cover" />
               <span>GrowWithMaya</span>
             </Link>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">

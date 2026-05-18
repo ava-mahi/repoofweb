@@ -63,6 +63,35 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "GrowWithMaya",
+              url: "https://www.growwithmaya.info",
+              description: "Real creator strategies, honest advice, and no fluff. Learn Instagram growth, faceless content, AI tools, and monetization.",
+              publisher: {
+                "@type": "Organization",
+                name: "GrowWithMaya",
+                url: "https://www.growwithmaya.info",
+                logo: {
+                  "@type": "ImageObject",
+                  url: "https://www.growwithmaya.info/logo.png",
+                },
+                sameAs: [
+                  "https://www.instagram.com/maya",
+                ],
+              },
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://www.growwithmaya.info/search?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <ThemeProvider>

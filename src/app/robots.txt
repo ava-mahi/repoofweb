@@ -3,5 +3,6 @@ Allow: /
 
 Disallow: /admin/
 Disallow: /api/
+Disallow: /seed/
 
-Sitemap: https://growwithmaya.com/sitemap.xml
+Sitemap: https://www.growwithmaya.info/sitemap.xml

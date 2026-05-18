@@ -71,8 +71,42 @@ export default async function ArticlePage({ params }: Props) {
   const related = await getRelatedPosts(slug, 3);
   const { html: contentWithIds, headings: toc } = injectHeadingIds(post.content);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.metaDescription || post.excerpt,
+    author: {
+      "@type": "Person",
+      name: post.author,
+      url: "https://www.growwithmaya.info/about/",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "GrowWithMaya",
+      url: "https://www.growwithmaya.info",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.growwithmaya.info/logo.png",
+      },
+    },
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt || post.publishedAt,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://www.growwithmaya.info/${slug}/`,
+    },
+    wordCount: post.content.replace(/<[^>]*>/g, " ").split(/\s+/).filter(Boolean).length,
+    articleSection: post.category,
+    keywords: post.tags.join(", "),
+  };
+
   return (
     <div className="animate-in fade-in duration-500">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid gap-12 lg:grid-cols-3">
           {/* Main Content */}
