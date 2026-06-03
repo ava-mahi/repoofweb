@@ -85,7 +85,7 @@ export default async function ArticlePage({ params }: Props) {
     author: {
       "@type": "Person",
       name: post.author,
-      url: "https://www.growwithmaya.info/about/",
+      url: "https://www.growwithmaya.info/about",
     },
     publisher: {
       "@type": "Organization",
@@ -100,7 +100,7 @@ export default async function ArticlePage({ params }: Props) {
     dateModified: post.updatedAt || post.publishedAt,
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://www.growwithmaya.info/${slug}/`,
+      "@id": `https://www.growwithmaya.info/${slug}`,
     },
     wordCount: post.content.replace(/<[^>]*>/g, " ").split(/\s+/).filter(Boolean).length,
     articleSection: post.category,

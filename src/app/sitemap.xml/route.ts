@@ -3,12 +3,12 @@ import { getAllSlugs, posts, categories } from "@/data/posts";
 export async function GET() {
   const baseUrl = "https://www.growwithmaya.info";
 
-  const staticPages = ["", "about/", "contact/", "privacy/", "terms/", "disclaimer/", "resources/"];
+  const staticPages = ["", "about", "contact", "privacy", "terms", "disclaimer", "resources"];
 
   const urls = [
     ...staticPages.map((page) => `<url><loc>${baseUrl}/${page}</loc><priority>${page === "" ? "1.0" : "0.5"}</priority></url>`),
-    ...getAllSlugs().map((slug) => `<url><loc>${baseUrl}/${slug}/</loc><priority>0.8</priority></url>`),
-    ...categories.map((cat) => `<url><loc>${baseUrl}/category/${cat.slug}/</loc><priority>0.6</priority></url>`),
+    ...getAllSlugs().map((slug) => `<url><loc>${baseUrl}/${slug}</loc><priority>0.8</priority></url>`),
+    ...categories.map((cat) => `<url><loc>${baseUrl}/category/${cat.slug}</loc><priority>0.6</priority></url>`),
   ].join("\n");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
